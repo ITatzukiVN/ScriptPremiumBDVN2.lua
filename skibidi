@@ -1,3 +1,27 @@
+-- 📌 Tọa độ 2 điểm cần teleport
+local point1 = Vector3.new(-5266, -4, 14635)    -- Đổi thành tọa độ của bạn
+local point2 = Vector3.new(19065, 66, 663)   -- Đổi thành tọa độ của bạn
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local hrp = char:WaitForChild("HumanoidRootPart")
+
+-- 📌 Lưu vị trí ban đầu
+local originalPos = hrp.Position
+
+-- 📌 Teleport tới điểm 1
+hrp.CFrame = CFrame.new(point1)
+task.wait(0.1) -- chờ cực ngắn
+
+-- 📌 Teleport tới điểm 2
+hrp.CFrame = CFrame.new(point2)
+task.wait(0.1)
+
+-- 📌 Quay lại vị trí ban đầu
+hrp.CFrame = CFrame.new(originalPos)
+
+
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local player = Players.LocalPlayer
