@@ -1,0 +1,416 @@
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+
+-- GUI Loading
+local loadingGui = Instance.new("ScreenGui")
+loadingGui.Name = "LoadingScreen"
+loadingGui.IgnoreGuiInset = true
+loadingGui.Parent = player:WaitForChild("PlayerGui")
+
+local bg = Instance.new("Frame")
+bg.Size = UDim2.new(1, 0, 1, 0)
+bg.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+bg.Parent = loadingGui
+
+local title = Instance.new("TextLabel")
+title.AnchorPoint = Vector2.new(0.5, 0.5)
+title.Position = UDim2.new(0.5, 0, 0.45, 0)
+title.Size = UDim2.new(0, 400, 0, 50)
+title.BackgroundTransparency = 1
+title.Text = "🔄 Đang tải ITatzuki Hub..."
+title.TextSize = 28
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.GothamBold
+title.Parent = bg
+
+-- Progress bar container
+local progressBg = Instance.new("Frame")
+progressBg.AnchorPoint = Vector2.new(0.5, 0)
+progressBg.Position = UDim2.new(0.5, 0, 0.55, 0)
+progressBg.Size = UDim2.new(0, 400, 0, 20)
+progressBg.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+progressBg.BorderSizePixel = 0
+progressBg.Parent = bg
+
+-- Progress bar fill
+local progressFill = Instance.new("Frame")
+progressFill.Size = UDim2.new(0, 0, 1, 0)
+progressFill.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+progressFill.BorderSizePixel = 0
+progressFill.Parent = progressBg
+
+-- Tween animation function
+local function updateProgress(percent)
+    TweenService:Create(
+        progressFill,
+        TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+        {Size = UDim2.new(percent, 0, 1, 0)}
+    ):Play()
+end
+
+-- Giả lập tải từng bước
+for i = 1, 100 do
+    updateProgress(i/100)
+    wait(0.02) -- Tốc độ chạy (0.02s mỗi bước)
+end
+
+-- Tải Fluent sau khi chạy progress bar
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+-- Animation ẩn GUI
+TweenService:Create(
+    bg,
+    TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+    {BackgroundTransparency = 1}
+):Play()
+TweenService:Create(
+    title,
+    TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+    {TextTransparency = 1}
+):Play()
+TweenService:Create(
+    progressBg,
+    TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+    {BackgroundTransparency = 1}
+):Play()
+
+wait(0.5)
+loadingGui:Destroy()
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "ITatzuki Hub (Free) " .. Fluent.Version,
+    SubTitle = "by ITatzuki",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+})
+
+--Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "🗿" }),
+    Farm = Window:AddTab({ Title = "Farm", Icon = "💸" }),
+    Shop = Window:AddTab({ Title = "Shop", Icon = "🛒" }),
+    Teleport = Window:AddTab({ Title = "Teleport", Icon = "✈️" }),
+    Support = Window:AddTab({ Title = "Hỗ Trợ", Icon = "😅"})
+}
+
+local Options = Fluent.Options
+
+do
+    Fluent:Notify({
+        Title = "Thông Báo",
+        Content = "Chào Mừng Đã Đến Với ITatzuki Hub🗿",
+        SubContent = "Script Bao Húp 🤑", -- Optional
+        Duration = 3 -- Set to nil to make the notification not disappear
+    })
+
+
+
+    Tabs.Main:AddParagraph({
+        Title = "Script Thiếu Kinh Phí",
+        Content = "Không có nhà tài trợ 😔"
+    })
+
+
+end
+
+local Button = Tabs.Main:AddButton({
+    Title = "infinite yield",
+    Description = "Nhấn để mở script",
+    Callback = function()
+        -- Script của bạn đặt trong đây
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+
+        -- Ví dụ: Teleport tới một part
+        local Players = game:GetService("Players")
+        local player = Players.LocalPlayer
+        local char = player.Character or player.CharacterAdded:Wait()
+        local hrp = char:WaitForChild("HumanoidRootPart")
+
+        local targetPart = workspace:FindFirstChild("TargetPart")
+        if targetPart then
+            hrp.CFrame = targetPart.CFrame + Vector3.new(0, 5, 0)
+        else
+            warn("Không tìm thấy part!")
+        end
+    end
+})
+
+local Button = Tabs.Main:AddButton({
+    Title = "Fling",
+    Description = "ko đc mở 2 lần",
+    Callback = function()
+        -- Script của bạn đặt trong đây
+        loadstring(game:HttpGet(('https://raw.githubusercontent.com/0Ben1/fe/main/obf_rf6iQURzu1fqrytcnLBAvW34C9N55kS9g9G3CKz086rC47M6632sEd4ZZYB0AYgV.lua.txt'),true))()
+   
+        -- Ví dụ: Teleport tới một part
+        local Players = game:GetService("Players")
+        local player = Players.LocalPlayer
+        local char = player.Character or player.CharacterAdded:Wait()
+        local hrp = char:WaitForChild("HumanoidRootPart")
+
+        local targetPart = workspace:FindFirstChild("TargetPart")
+        if targetPart then
+            hrp.CFrame = targetPart.CFrame + Vector3.new(0, 5, 0)
+        else
+            warn("Không tìm thấy part!")
+        end
+    end
+})
+
+
+_G.autoFarm = false
+_G.autoFarmRunning = false
+
+local Toggle = Tabs.Farm:AddToggle("MyToggle", {Title = "Auto Farm 1", Default = false })
+
+Toggle:OnChanged(function()
+    if Options.MyToggle.Value then
+        _G.autoFarm = true
+        if not _G.autoFarmRunning then
+            _G.autoFarmRunning = true
+
+            task.spawn(function()
+                local Players = game:GetService("Players")
+                local player = Players.LocalPlayer or Players:GetPlayers()[1]
+                local delayTime = 1
+
+                -- Lấy tất cả part tên "Respawning Coin"
+                local teleportParts = {}
+                for _, obj in ipairs(workspace:GetDescendants()) do
+                    if obj:IsA("BasePart") and obj.Name == "Respawning Coin" then
+                        table.insert(teleportParts, obj)
+                    end
+                end
+
+                if #teleportParts == 0 then
+                    warn("Không tìm thấy part nào tên 'Respawning Coin'")
+                    _G.autoFarmRunning = false
+                    return
+                end
+
+                -- Bắt đầu vòng lặp farm
+                while _G.autoFarm do
+                    local char = player.Character or player.CharacterAdded:Wait()
+                    local hrp = char:FindFirstChild("HumanoidRootPart")
+
+                    for _, part in ipairs(teleportParts) do
+                        if not _G.autoFarm then break end -- ⚠ kiểm tra dừng giữa vòng
+                        if part and hrp then
+                            hrp.CFrame = part.CFrame
+                        end
+                        wait(delayTime)
+                    end
+                end
+
+                _G.autoFarmRunning = false
+                print("Dừng auto farm.")
+            end)
+        end
+    else
+        _G.autoFarm = false
+    end
+end)
+
+
+
+local targetItem = "Classic Sword: 200 VND" -- ← Đổi tên món bạn muốn mua
+
+Tabs.Shop:AddButton({
+    Title ="Sword",
+    Description = "Tốn 200VNĐ",
+    Callback = function()
+        local parentFolder = workspace:FindFirstChild("NK ITEM") -- ← sửa lại tên đúng
+        local count = 0
+
+        if parentFolder then
+            for _, obj in pairs(parentFolder:GetDescendants()) do
+                if obj:IsA("ClickDetector") and obj.Parent and obj.Parent.Name == "Toolshop" then
+                    local shop = obj.Parent
+                    local surfaceGui = shop:FindFirstChildOfClass("SurfaceGui")
+
+                    if surfaceGui then
+                        for _, guiObj in ipairs(surfaceGui:GetDescendants()) do
+                            if guiObj:IsA("TextLabel") or guiObj:IsA("TextButton") then
+                                if string.lower(guiObj.Text):find(string.lower(targetItem)) then
+                                    fireclickdetector(obj)
+                                    count += 1
+                                    break
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        else
+            warn("Không tìm thấy thư mục chứa toolshop.")
+        end
+
+        Fluent:Notify({
+            Title = "Đã Mua Sword",
+            Content = "-200VNĐ",
+            Duration = 3
+        })
+    end
+})
+
+
+
+
+local targetItem = "BloxyCola: 100 VND" -- ← Đổi tên món bạn muốn mua
+
+Tabs.Shop:AddButton({
+    Title ="BloxyCola",
+    Description = "Tốn 100VNĐ",
+    Callback = function()
+        local parentFolder = workspace:FindFirstChild("NK ITEM") -- ← sửa lại tên đúng
+        local count = 0
+
+        if parentFolder then
+            for _, obj in pairs(parentFolder:GetDescendants()) do
+                if obj:IsA("ClickDetector") and obj.Parent and obj.Parent.Name == "Toolshop" then
+                    local shop = obj.Parent
+                    local surfaceGui = shop:FindFirstChildOfClass("SurfaceGui")
+
+                    if surfaceGui then
+                        for _, guiObj in ipairs(surfaceGui:GetDescendants()) do
+                            if guiObj:IsA("TextLabel") or guiObj:IsA("TextButton") then
+                                if string.lower(guiObj.Text):find(string.lower(targetItem)) then
+                                    fireclickdetector(obj)
+                                    count += 1
+                                    break
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        else
+            warn("Không tìm thấy thư mục chứa toolshop.")
+        end
+
+        Fluent:Notify({
+            Title = "Đã Mua BloxyCola",
+            Content = "-100VNĐ",
+            Duration = 3
+        })
+    end
+})
+
+-- Tabs.Teleport
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+
+-- Danh sách tọa độ dịch chuyển
+local teleportLocations = {
+    ["Sảnh"] = Vector3.new(48, 5, -2059),
+    ["Cafe"] = Vector3.new(622, 3, -941),
+    ["Sân Bay Giang Son"] = Vector3.new(4697, 1, -1260),
+    ["Khu Sơn Xe"] = Vector3.new(1944, 1, -1092),
+    ["Độ Xe"] = Vector3.new(746, 4, -1375)
+}
+
+-- Lưu lựa chọn người dùng
+local selectedLocation = nil
+
+-- Dropdown chọn địa điểm
+Tabs.Teleport:AddDropdown("LocationDropdown", {
+    Title = "Chọn địa điểm",
+    Values = table.pack(unpack((function()
+        local keys = {}
+        for name, _ in pairs(teleportLocations) do
+            table.insert(keys, name)
+        end
+        return keys
+    end)())),
+    Multi = false,
+    Default = nil
+}):OnChanged(function(value)
+    selectedLocation = teleportLocations[value]
+end)
+
+-- Nút xác nhận dịch chuyển
+Tabs.Teleport:AddButton({
+    Title = "Dịch Chuyển",
+    Description = "Di chuyển tới địa điểm đã chọn",
+    Callback = function()
+        if selectedLocation and player.Character then
+            hrp = player.Character:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                hrp.CFrame = CFrame.new(selectedLocation)
+            end
+        else
+            warn("Chưa chọn địa điểm hoặc chưa có nhân vật.")
+        end
+    end
+})
+
+Tabs.Support:AddButton({
+    Title = "Copy Link Vào Discord để được hỗ trợ😅",
+    Description = "Nhấn để copy link vào clipboard",
+    Callback = function()
+        local link = "https://discord.gg/usPdcd7Ep4"
+        if setclipboard then
+            setclipboard(link)
+            Fluent:Notify({
+                Title = "Thành công",
+                Content = "Đã copy link vào clipboard!",
+                Duration = 2
+            })
+        else
+            Fluent:Notify({
+                Title = "Lỗi",
+                Content = "Executor không hỗ trợ setclipboard!",
+                Duration = 2
+            })
+        end
+    end
+})
+
+
+-- Addons:
+-- SaveManager (Allows you to have a configuration system)
+-- InterfaceManager (Allows you to have a interface managment system)
+
+-- Hand the library over to our managers
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+
+-- Ignore keys that are used by ThemeManager.
+-- (we dont want configs to save themes, do we?)
+SaveManager:IgnoreThemeSettings()
+
+-- You can add indexes of elements the save manager should ignore
+SaveManager:SetIgnoreIndexes({})
+
+-- use case for doing it this way:
+-- a script hub could have themes in a global folder
+-- and game configs in a separate folder per game
+InterfaceManager:SetFolder("FluentScriptHub")
+SaveManager:SetFolder("FluentScriptHub/specific-game")
+
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+
+
+Window:SelectTab(1)
+
+Fluent:Notify({
+    Title = "ITatzuki Hub",
+    Content = "Script Đã Tải Xong.",
+    Duration = 8
+})
+
+-- You can use the SaveManager:LoadAutoloadConfig() to load a config
+-- which has been marked to be one that auto loads!
+SaveManager:LoadAutoloadConfig()
