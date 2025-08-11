@@ -109,7 +109,7 @@ local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/d
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
 local Window = Fluent:CreateWindow({
-    Title = "ITatzuki Hub (Free) " .. Fluent.Version,
+    Title = "ITatzuki Hub (Premium) " .. Fluent.Version,
     SubTitle = "by ITatzuki",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
@@ -316,9 +316,9 @@ end
 -- Farm liên tục không cần đợi item
 local function autoQuestFast()
     teleportTo(questGiver)
-    wait(0.3)
+    wait(0.01)
     triggerPrompt(questGiver)
-    wait(0.3)
+    wait(0.01)
     teleportTo(completePart)
 end
 
@@ -329,7 +329,7 @@ task.spawn(function()
             autoQuestFast()
             wait(0.01) -- càng thấp càng nhanh
         else
-            wait(0.5)
+            wait(0.01)
         end
     end
 end)
@@ -372,9 +372,9 @@ end
 -- Farm liên tục không cần đợi có item
 local function autoQuestFast()
     teleportTo(questGiver)
-    wait(0.3)
+    wait(0.01)
     triggerPrompt(questGiver)
-    wait(0.3)
+    wait(0.01)
     teleportTo(completePart)
 end
 
@@ -385,7 +385,7 @@ task.spawn(function()
             autoQuestFast()
             wait(0.01) -- càng thấp càng nhanh
         else
-            wait(0.5)
+            wait(0.01)
         end
     end
 end)
