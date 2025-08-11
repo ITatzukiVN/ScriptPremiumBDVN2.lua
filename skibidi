@@ -579,7 +579,7 @@ local teleportLocations = {
     ["Cafe"] = Vector3.new(622, 3, -941),
     ["Sân Bay Giang Son"] = Vector3.new(4697, 1, -1260),
     ["Khu Sơn Xe"] = Vector3.new(1944, 1, -1092),
-    ["Độ Xe"] = Vector3.new(746, 4, -1375),
+    ["Độ Xe"] = Vector3.new(746, 4, -1375)
     ["Trụ sở công an BDVN2"] = Vector3.new(1479, 5, 1430)
 }
 
