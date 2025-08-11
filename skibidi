@@ -329,7 +329,7 @@ task.spawn(function()
             autoQuestFast()
             wait(0.01) -- càng thấp càng nhanh
         else
-            wait(0.0)
+            wait(0.01)
         end
     end
 end)
