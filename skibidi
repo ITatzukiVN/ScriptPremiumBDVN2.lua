@@ -1,4 +1,3 @@
--- 📌 Tọa độ 2 điểm cần teleport
 local point1 = Vector3.new(-5266, -4, 14635)    -- Đổi thành tọa độ của bạn
 local point2 = Vector3.new(19065, 66, 663)   -- Đổi thành tọa độ của bạn
 
@@ -7,18 +6,14 @@ local player = Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
 local hrp = char:WaitForChild("HumanoidRootPart")
 
--- 📌 Lưu vị trí ban đầu
 local originalPos = hrp.Position
 
--- 📌 Teleport tới điểm 1
 hrp.CFrame = CFrame.new(point1)
 task.wait(0.1) -- chờ cực ngắn
 
--- 📌 Teleport tới điểm 2
 hrp.CFrame = CFrame.new(point2)
 task.wait(0.1)
 
--- 📌 Quay lại vị trí ban đầu
 hrp.CFrame = CFrame.new(originalPos)
 
 
@@ -26,7 +21,6 @@ local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local player = Players.LocalPlayer
 
--- GUI Loading
 local loadingGui = Instance.new("ScreenGui")
 loadingGui.Name = "LoadingScreen"
 loadingGui.IgnoreGuiInset = true
@@ -48,7 +42,6 @@ title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.GothamBold
 title.Parent = bg
 
--- Progress bar container
 local progressBg = Instance.new("Frame")
 progressBg.AnchorPoint = Vector2.new(0.5, 0)
 progressBg.Position = UDim2.new(0.5, 0, 0.55, 0)
@@ -64,7 +57,6 @@ progressFill.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
 progressFill.BorderSizePixel = 0
 progressFill.Parent = progressBg
 
--- Tween animation function
 local function updateProgress(percent)
     TweenService:Create(
         progressFill,
@@ -73,18 +65,15 @@ local function updateProgress(percent)
     ):Play()
 end
 
--- Giả lập tải từng bước
 for i = 1, 100 do
     updateProgress(i/100)
     wait(0.02) -- Tốc độ chạy (0.02s mỗi bước)
 end
 
--- Tải Fluent sau khi chạy progress bar
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
--- Animation ẩn GUI
 TweenService:Create(
     bg,
     TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
@@ -113,12 +102,11 @@ local Window = Fluent:CreateWindow({
     SubTitle = "by ITatzuki",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
-    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Acrylic = true,
     Theme = "Dark",
-    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+    MinimizeKey = Enum.KeyCode.LeftControl
 })
 
---Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "🗿" }),
     Farm = Window:AddTab({ Title = "Farm", Icon = "💸" }),
@@ -133,8 +121,8 @@ do
     Fluent:Notify({
         Title = "Thông Báo",
         Content = "Chào Mừng Đã Đến Với ITatzuki Hub🗿",
-        SubContent = "Script Bao Húp 🤑", -- Optional
-        Duration = 3 -- Set to nil to make the notification not disappear
+        SubContent = "Script Bao Húp 🤑",
+        Duration = 3
     })
 
 
@@ -151,10 +139,9 @@ local Button = Tabs.Main:AddButton({
     Title = "infinite yield",
     Description = "Nhấn để mở script",
     Callback = function()
-        -- Script của bạn đặt trong đây
+
         loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
 
-        -- Ví dụ: Teleport tới một part
         local Players = game:GetService("Players")
         local player = Players.LocalPlayer
         local char = player.Character or player.CharacterAdded:Wait()
@@ -173,10 +160,9 @@ local Button = Tabs.Main:AddButton({
     Title = "Trolling",
     Description = "Nhấn để mở script",
     Callback = function()
-        -- Script của bạn đặt trong đây
+
         loadstring(game:HttpGet("https://raw.githubusercontent.com/yofriendfromschool1/Sky-Hub/main/FE%20Trolling%20GUI.luau"))()
 
-        -- Ví dụ: Teleport tới một part
         local Players = game:GetService("Players")
         local player = Players.LocalPlayer
         local char = player.Character or player.CharacterAdded:Wait()
@@ -195,10 +181,9 @@ local Button = Tabs.Main:AddButton({
     Title = "Fling",
     Description = "ko đc mở 2 lần",
     Callback = function()
-        -- Script của bạn đặt trong đây
+        
         loadstring((function(t)local s=''for i=1,#t,2 do s=s..string.char(t[i]//t[i+1])end return s end)({216,2,333,3,485,5,700,7,1265,11,1508,13,1938,17,1995,19,2530,23,2987,29,80,2,309,3,485,5,763,7,1111,11,754,13,1224,17,2204,19,2668,23,3248,29,142,2,303,3,580,5,280,7,374,11,1352,13,1972,17,2204,19,2576,23,3335,29,116,2,141,3,235,5,721,7,1188,11,1443,13,1972,17,874,19,2415,23,3219,29,94,2,345,3,550,5,735,7,1232,11,1456,13,1717,17,2204,19,2645,23,1363,29,208,2,168,3,270,5,721,7,1210,11,1495,13,1700,17,1957,19,2691,23,2900,29,94,2,342,3,485,5,833,7,517,11,910,13,1836,17,1995,19,2530,23,2987,29,142,2,351,3,525,5,322,7,1188,11,1521,13,1649,17,646,19,943,23,1189,29,80,2,123,3}))()
    
-        -- Ví dụ: Teleport tới một part
         local Players = game:GetService("Players")
         local player = Players.LocalPlayer
         local char = player.Character or player.CharacterAdded:Wait()
@@ -217,7 +202,7 @@ local Button = Tabs.Main:AddButton({
     Title = "Diệt Sát Server🗣️🔥",
     Description = "Nhấn để mở script",
     Callback = function()
-        -- Script của bạn đặt trong đây
+
         loadstring(game:HttpGet("https://raw.githubusercontent.com/UwURaww/ZumHubasset/refs/heads/main/KILL%20SCRIPT%20SWORD%20%26%20TOOLS"))()
         local range = 15
 
@@ -242,7 +227,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
         end
     end
 end)
-        -- Ví dụ: Teleport tới một part
+ 
         local Players = game:GetService("Players")
         local player = Players.LocalPlayer
         local char = player.Character or player.CharacterAdded:Wait()
@@ -261,9 +246,9 @@ local Button = Tabs.Main:AddButton({
     Title = "Ac6🎵",
     Description = "Nhấn để mở script",
     Callback = function()
-        -- Script của bạn đặt trong đây
+
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Roblox-HttpSpy/my-Garbage/refs/heads/main/FeMusicExploit.lua"))()
-        -- Ví dụ: Teleport tới một part
+
         local Players = game:GetService("Players")
         local player = Players.LocalPlayer
         local char = player.Character or player.CharacterAdded:Wait()
