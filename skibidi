@@ -263,32 +263,27 @@ local Button = Tabs.Main:AddButton({
     end
 })
 
--- Tạo Toggle 500
 local Farm500Toggle = Tabs.Farm:AddToggle("Farm500Toggle", {
     Title = "Farm 500",
     Default = false
 })
 
--- Dịch vụ & người chơi
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local backpack = player:WaitForChild("Backpack")
 local character = player.Character or player.CharacterAdded:Wait()
 local hrp = character:WaitForChild("HumanoidRootPart")
 
--- Thông tin nhiệm vụ
 local requiredToolName = "Package"
 local questGiver = workspace.ChoKhach2System.KhongXoa2:WaitForChild("GetJobPart")
 local completePart = workspace.ChoKhach2System.KhongXoa2:WaitForChild("TargetPart")
 
--- Hàm dịch chuyển
 local function teleportTo(part)
     if part and hrp then
         hrp.CFrame = part.CFrame + Vector3.new(0, 1, 0)
     end
 end
 
--- Kích hoạt ProximityPrompt
 local function triggerPrompt(part)
     local prompt = part:FindFirstChildWhichIsA("ProximityPrompt", true)
     if prompt then
@@ -298,7 +293,6 @@ local function triggerPrompt(part)
     return false
 end
 
--- Farm liên tục không cần đợi item
 local function autoQuestFast()
     teleportTo(questGiver)
     wait(0.01)
@@ -307,7 +301,6 @@ local function autoQuestFast()
     teleportTo(completePart)
 end
 
--- Vòng lặp toggle
 task.spawn(function()
     while true do
         if Options.Farm500Toggle.Value then
@@ -319,32 +312,27 @@ task.spawn(function()
     end
 end)
 
--- Tạo Toggle 700
 local Farm700Toggle = Tabs.Farm:AddToggle("Farm700Toggle", {
     Title = "Farm 700",
     Default = false
 })
 
--- Dịch vụ & người chơi
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local backpack = player:WaitForChild("Backpack")
 local character = player.Character or player.CharacterAdded:Wait()
 local hrp = character:WaitForChild("HumanoidRootPart")
 
--- Thông tin nhiệm vụ (★ Đã thay đổi đường dẫn đúng như bạn yêu cầu)
 local requiredToolName = "Package"
 local questGiver = workspace.ChoKhachSystem.KhongXoa:WaitForChild("GetJobPart")
 local completePart = workspace.ChoKhachSystem.KhongXoa:WaitForChild("TargetPart")
 
--- Hàm dịch chuyển
 local function teleportTo(part)
     if part and hrp then
         hrp.CFrame = part.CFrame + Vector3.new(0, 1, 0)
     end
 end
 
--- Kích hoạt ProximityPrompt
 local function triggerPrompt(part)
     local prompt = part:FindFirstChildWhichIsA("ProximityPrompt", true)
     if prompt then
@@ -354,7 +342,6 @@ local function triggerPrompt(part)
     return false
 end
 
--- Farm liên tục không cần đợi có item
 local function autoQuestFast()
     teleportTo(questGiver)
     wait(0.01)
@@ -363,7 +350,6 @@ local function autoQuestFast()
     teleportTo(completePart)
 end
 
--- Vòng lặp toggle
 task.spawn(function()
     while true do
         if Options.Farm700Toggle.Value then
@@ -411,7 +397,7 @@ Toggle:OnChanged(function()
                     local hrp = char:FindFirstChild("HumanoidRootPart")
 
                     for _, part in ipairs(teleportParts) do
-                        if not _G.autoFarm then break end -- ⚠ kiểm tra dừng giữa vòng
+                        if not _G.autoFarm then break end
                         if part and hrp then
                             hrp.CFrame = part.CFrame
                         end
@@ -430,13 +416,13 @@ end)
 
 
 
-local targetItem = "Classic Sword: 200 VND" -- ← Đổi tên món bạn muốn mua
+local targetItem = "Classic Sword: 200 VND"
 
 Tabs.Shop:AddButton({
     Title ="Sword",
     Description = "Tốn 200VNĐ",
     Callback = function()
-        local parentFolder = workspace:FindFirstChild("NK ITEM") -- ← sửa lại tên đúng
+        local parentFolder = workspace:FindFirstChild("NK ITEM")
         local count = 0
 
         if parentFolder then
@@ -473,13 +459,13 @@ Tabs.Shop:AddButton({
 
 
 
-local targetItem = "BloxyCola: 100 VND" -- ← Đổi tên món bạn muốn mua
+local targetItem = "BloxyCola: 100 VND"
 
 Tabs.Shop:AddButton({
     Title ="BloxyCola",
     Description = "Tốn 100VNĐ",
     Callback = function()
-        local parentFolder = workspace:FindFirstChild("NK ITEM") -- ← sửa lại tên đúng
+        local parentFolder = workspace:FindFirstChild("NK ITEM")
         local count = 0
 
         if parentFolder then
@@ -513,13 +499,13 @@ Tabs.Shop:AddButton({
     end
 })
 
-local targetItem = "RPG: 100000 VND" -- ← Đổi tên món bạn muốn mua
+local targetItem = "RPG: 100000 VND"
 
 Tabs.Shop:AddButton({
     Title ="RGB",
     Description = "Tốn 100000VNĐ",
     Callback = function()
-        local parentFolder = workspace:FindFirstChild("NK ITEM") -- ← sửa lại tên đúng
+        local parentFolder = workspace:FindFirstChild("NK ITEM")
         local count = 0
 
         if parentFolder then
@@ -553,12 +539,10 @@ Tabs.Shop:AddButton({
     end
 })
 
--- Tabs.Teleport
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
 
--- Danh sách tọa độ dịch chuyển
 local teleportLocations = {
     ["Sảnh"] = Vector3.new(48, 5, -2059),
     ["Cafe"] = Vector3.new(622, 3, -941),
@@ -568,10 +552,8 @@ local teleportLocations = {
     ["Trụ sở công an BDVN2"] = Vector3.new(1479, 5, 1430)
 }
 
--- Lưu lựa chọn người dùng
 local selectedLocation = nil
 
--- Dropdown chọn địa điểm
 Tabs.Teleport:AddDropdown("LocationDropdown", {
     Title = "Chọn địa điểm",
     Values = table.pack(unpack((function()
@@ -587,7 +569,6 @@ Tabs.Teleport:AddDropdown("LocationDropdown", {
     selectedLocation = teleportLocations[value]
 end)
 
--- Nút xác nhận dịch chuyển
 Tabs.Teleport:AddButton({
     Title = "Dịch Chuyển",
     Description = "Di chuyển tới địa điểm đã chọn",
