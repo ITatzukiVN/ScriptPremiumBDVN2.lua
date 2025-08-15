@@ -1,3 +1,99 @@
+local keys = {
+    {Key="1", UserId=9124862678, Expire=os.time({year=3000, month=12, day=31})},
+    {Key="VIP456", UserId=987654321, Expire=os.time({year=2025, month=9, day=1})},
+    {Key="TEST999", UserId=112233445, Expire=os.time({year=2025, month=12, day=31})}
+}
+
+local discordLink = "https://discord.gg/usPdcd7Ep4"
+local player = game:GetService("Players").LocalPlayer
+if not player then return end
+
+local gui = Instance.new("ScreenGui")
+gui.Parent = player:FindFirstChild("PlayerGui") or player:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 320, 0, 180)
+frame.Position = UDim2.new(0.5, -160, 0.5, -90)
+frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+frame.Parent = gui
+
+local frameCorner = Instance.new("UICorner")
+frameCorner.CornerRadius = UDim.new(0,24)
+frameCorner.Parent = frame
+
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1,0,0,40)
+title.Position = UDim2.new(0,0,0,0)
+title.Text = "Nhập Key"
+title.TextColor3 = Color3.new(1,1,1)
+title.BackgroundTransparency = 1
+title.Parent = frame
+
+local textbox = Instance.new("TextBox")
+textbox.Size = UDim2.new(0.8,0,0,30)
+textbox.Position = UDim2.new(0.1,0,0.3,0)
+textbox.PlaceholderText = "Nhập key tại đây"
+textbox.TextColor3 = Color3.new(1,1,1)
+textbox.BackgroundColor3 = Color3.fromRGB(50,50,50)
+textbox.Parent = frame
+
+local textboxCorner = Instance.new("UICorner")
+textboxCorner.CornerRadius = UDim.new(0,12)
+textboxCorner.Parent = textbox
+
+local note = Instance.new("TextLabel")
+note.Size = UDim2.new(1,0,0,20)
+note.Position = UDim2.new(0,0,0.55,0)
+note.Text = "Vào link Discord để mua"
+note.TextColor3 = Color3.fromRGB(200,200,200)
+note.BackgroundTransparency = 1
+note.Parent = frame
+
+local confirm = Instance.new("TextButton")
+confirm.Size = UDim2.new(0.45,0,0,35)
+confirm.Position = UDim2.new(0.05,0,0.75,0)
+confirm.Text = "Xác nhận✅"
+confirm.BackgroundColor3 = Color3.fromRGB(0,170,127)
+confirm.Parent = frame
+
+local confirmCorner = Instance.new("UICorner")
+confirmCorner.CornerRadius = UDim.new(0,12)
+confirmCorner.Parent = confirm
+
+local getkey = Instance.new("TextButton")
+getkey.Size = UDim2.new(0.45,0,0,35)
+getkey.Position = UDim2.new(0.5,0,0.75,0)
+getkey.Text = "Lấy Key🔑"
+getkey.BackgroundColor3 = Color3.fromRGB(0,120,255)
+getkey.Parent = frame
+
+local getkeyCorner = Instance.new("UICorner")
+getkeyCorner.CornerRadius = UDim.new(0,12)
+getkeyCorner.Parent = getkey
+
+local function checkKey(input)
+    local now = os.time()
+    local uid = player.UserId
+    for _,v in ipairs(keys) do
+        if input == v.Key then
+            if uid ~= v.UserId then
+                return false, "Key không thuộc bạn❌"
+            elseif now > v.Expire then
+                return false, "Key đã hết hạn❌"
+            else
+                return true
+            end
+        end
+    end
+    return false, "Key không hợp lệ❌"
+end
+
+confirm.MouseButton1Click:Connect(function()
+    local valid, reason = checkKey(textbox.Text)
+    if valid then
+        title.Text = "✅ Key hợp lệ! Đang chạy..."
+        wait(0.5)
+        gui:Destroy()
 local point1 = Vector3.new(-5266, -4, 14635)    -- Đổi thành tọa độ của bạn
 local point2 = Vector3.new(19065, 66, 663)   -- Đổi thành tọa độ của bạn
 
@@ -9,7 +105,7 @@ local hrp = char:WaitForChild("HumanoidRootPart")
 local originalPos = hrp.Position
 
 hrp.CFrame = CFrame.new(point1)
-task.wait(0.1) -- chờ cực ngắn
+task.wait(0.1)
 
 hrp.CFrame = CFrame.new(point2)
 task.wait(0.1)
@@ -263,12 +359,16 @@ local Button = Tabs.Main:AddButton({
     end
 })
 
+-- 5
 local Farm500Toggle = Tabs.Farm:AddToggle("Farm500Toggle", {
     Title = "Farm 500",
     Default = false
 })
 
 local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+
 local player = Players.LocalPlayer
 local backpack = player:WaitForChild("Backpack")
 local character = player.Character or player.CharacterAdded:Wait()
@@ -280,7 +380,7 @@ local completePart = workspace.ChoKhach2System.KhongXoa2:WaitForChild("TargetPar
 
 local function teleportTo(part)
     if part and hrp then
-        hrp.CFrame = part.CFrame + Vector3.new(0, 1, 0)
+        hrp.CFrame = part.CFrame + Vector3.new(0, -1, 0)
     end
 end
 
@@ -293,31 +393,87 @@ local function triggerPrompt(part)
     return false
 end
 
+local screenGui = Instance.new("ScreenGui")
+screenGui.IgnoreGuiInset = true
+screenGui.ResetOnSpawn = false
+screenGui.Enabled = false
+screenGui.DisplayOrder = -1
+
+local frame = Instance.new("Frame", screenGui)
+frame.Size = UDim2.new(1,0,1,0)
+frame.Position = UDim2.new(0,0,0,0)
+frame.BackgroundColor3 = Color3.new(0,0,0)
+frame.BackgroundTransparency = 0
+frame.ZIndex = 0
+
+local label = Instance.new("TextLabel", frame)
+label.AnchorPoint = Vector2.new(0.5,0.5)
+label.Position = UDim2.new(0.5,0,0.5,0)
+label.Size = UDim2.new(1,0,0.2,0)
+label.BackgroundTransparency = 1
+label.Text = "Đang Farm..."
+label.TextColor3 = Color3.new(1,1,1)
+label.TextScaled = true
+label.Font = Enum.Font.GothamBold
+label.ZIndex = 1
+
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+local originalCFrame = nil
+local farmActive = false
+
+local function returnToOriginal()
+    if originalCFrame and hrp then
+        local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+        local tween = TweenService:Create(hrp, tweenInfo, {CFrame = originalCFrame})
+        tween:Play()
+        tween.Completed:Wait()
+    end
+end
+
 local function autoQuestFast()
+    if not farmActive then return end
     teleportTo(questGiver)
-    wait(0.01)
+    wait(0.0001)
+    if not farmActive then return end
     triggerPrompt(questGiver)
-    wait(0.01)
+    wait(0.0001)
+    if not farmActive then return end
     teleportTo(completePart)
 end
 
+Farm500Toggle:OnChanged(function(value)
+    farmActive = value
+    if value then
+        originalCFrame = hrp.CFrame
+        screenGui.Enabled = true
+    else
+        screenGui.Enabled = false
+        returnToOriginal()
+    end
+end)
+
 task.spawn(function()
     while true do
-        if Options.Farm500Toggle.Value then
+        if farmActive then
             autoQuestFast()
-            wait(0.01) -- càng thấp càng nhanh
+            wait(0.0001)
         else
-            wait(0.01)
+            wait(0.0001)
         end
     end
 end)
 
+-- 7
 local Farm700Toggle = Tabs.Farm:AddToggle("Farm700Toggle", {
     Title = "Farm 700",
     Default = false
 })
 
 local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+
 local player = Players.LocalPlayer
 local backpack = player:WaitForChild("Backpack")
 local character = player.Character or player.CharacterAdded:Wait()
@@ -329,7 +485,7 @@ local completePart = workspace.ChoKhachSystem.KhongXoa:WaitForChild("TargetPart"
 
 local function teleportTo(part)
     if part and hrp then
-        hrp.CFrame = part.CFrame + Vector3.new(0, 1, 0)
+        hrp.CFrame = part.CFrame + Vector3.new(0, -1, 0)
     end
 end
 
@@ -342,78 +498,181 @@ local function triggerPrompt(part)
     return false
 end
 
+local screenGui = Instance.new("ScreenGui")
+screenGui.IgnoreGuiInset = true
+screenGui.ResetOnSpawn = false
+screenGui.Enabled = false
+screenGui.DisplayOrder = -1
+
+local frame = Instance.new("Frame", screenGui)
+frame.Size = UDim2.new(1,0,1,0)
+frame.Position = UDim2.new(0,0,0,0)
+frame.BackgroundColor3 = Color3.new(0,0,0)
+frame.BackgroundTransparency = 0
+frame.ZIndex = 0
+
+local label = Instance.new("TextLabel", frame)
+label.AnchorPoint = Vector2.new(0.5,0.5)
+label.Position = UDim2.new(0.5,0,0.5,0)
+label.Size = UDim2.new(1,0,0.2,0)
+label.BackgroundTransparency = 1
+label.Text = "Đang Farm..."
+label.TextColor3 = Color3.new(1,1,1)
+label.TextScaled = true
+label.Font = Enum.Font.GothamBold
+label.ZIndex = 1
+
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+local originalCFrame = nil
+local farmActive = false
+
+local function returnToOriginal()
+    if originalCFrame and hrp then
+        local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+        local tween = TweenService:Create(hrp, tweenInfo, {CFrame = originalCFrame})
+        tween:Play()
+        tween.Completed:Wait()
+    end
+end
+
 local function autoQuestFast()
+    if not farmActive then return end
     teleportTo(questGiver)
-    wait(0.01)
+    wait(0.0001)
+    if not farmActive then return end
     triggerPrompt(questGiver)
-    wait(0.01)
+    wait(0.0001)
+    if not farmActive then return end
     teleportTo(completePart)
 end
 
+Farm700Toggle:OnChanged(function(value)
+    farmActive = value
+    if value then
+        originalCFrame = hrp.CFrame
+        screenGui.Enabled = true
+    else
+        screenGui.Enabled = false
+        returnToOriginal()
+    end
+end)
+
 task.spawn(function()
     while true do
-        if Options.Farm700Toggle.Value then
+        if farmActive then
             autoQuestFast()
-            wait(0.01) -- càng thấp càng nhanh
+            wait(0.0001)
         else
-            wait(0.01)
+            wait(0.0001)
         end
     end
 end)
+
+
+
+
 
 _G.autoFarm = false
 _G.autoFarmRunning = false
 
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer or Players:GetPlayers()[1]
+
 local Toggle = Tabs.Farm:AddToggle("MyToggle", {Title = "Auto Farm 1", Default = false })
 
-Toggle:OnChanged(function()
-    if Options.MyToggle.Value then
-        _G.autoFarm = true
-        if not _G.autoFarmRunning then
-            _G.autoFarmRunning = true
+local originalCFrame = nil
 
-            task.spawn(function()
-                local Players = game:GetService("Players")
-                local player = Players.LocalPlayer or Players:GetPlayers()[1]
-                local delayTime = 1
+local screenGui = Instance.new("ScreenGui")
+screenGui.IgnoreGuiInset = true
+screenGui.ResetOnSpawn = false
+screenGui.Enabled = false
+screenGui.DisplayOrder = -1
 
-                -- Lấy tất cả part tên "Respawning Coin"
-                local teleportParts = {}
-                for _, obj in ipairs(workspace:GetDescendants()) do
-                    if obj:IsA("BasePart") and obj.Name == "Respawning Coin" then
-                        table.insert(teleportParts, obj)
-                    end
+local frame = Instance.new("Frame", screenGui)
+frame.Size = UDim2.new(1,0,1,0)
+frame.Position = UDim2.new(0,0,0,0)
+frame.BackgroundColor3 = Color3.new(0,0,0)
+frame.BackgroundTransparency = 0
+frame.ZIndex = 0
+
+local label = Instance.new("TextLabel", frame)
+label.AnchorPoint = Vector2.new(0.5,0.5)
+label.Position = UDim2.new(0.5,0,0.5,0)
+label.Size = UDim2.new(1,0,0.2,0)
+label.BackgroundTransparency = 1
+label.Text = "Đang Farm..."
+label.TextColor3 = Color3.new(1,1,1)
+label.TextScaled = true
+label.Font = Enum.Font.GothamBold
+label.ZIndex = 1
+
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+local function returnToOriginal(hrp)
+    if originalCFrame and hrp then
+        local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+        local tween = TweenService:Create(hrp, tweenInfo, {CFrame = originalCFrame})
+        tween:Play()
+        tween.Completed:Wait()
+    end
+end
+
+Toggle:OnChanged(function(value)
+    _G.autoFarm = value
+    screenGui.Enabled = value
+
+    if value and not _G.autoFarmRunning then
+        _G.autoFarmRunning = true
+
+        task.spawn(function()
+            local delayTime = 0.1
+
+            local teleportParts = {}
+            for _, obj in ipairs(workspace:GetDescendants()) do
+                if obj:IsA("BasePart") and obj.Name == "Respawning Coin" then
+                    table.insert(teleportParts, obj)
                 end
+            end
 
-                if #teleportParts == 0 then
-                    warn("Không tìm thấy part nào tên 'Respawning Coin'")
-                    _G.autoFarmRunning = false
-                    return
-                end
-
-                -- Bắt đầu vòng lặp farm
-                while _G.autoFarm do
-                    local char = player.Character or player.CharacterAdded:Wait()
-                    local hrp = char:FindFirstChild("HumanoidRootPart")
-
-                    for _, part in ipairs(teleportParts) do
-                        if not _G.autoFarm then break end
-                        if part and hrp then
-                            hrp.CFrame = part.CFrame
-                        end
-                        wait(delayTime)
-                    end
-                end
-
+            if #teleportParts == 0 then
+                warn("Không tìm thấy part nào tên 'Respawning Coin'")
                 _G.autoFarmRunning = false
-                print("Dừng auto farm.")
-            end)
-        end
-    else
-        _G.autoFarm = false
+                screenGui.Enabled = false
+                return
+            end
+
+            local char = player.Character or player.CharacterAdded:Wait()
+            local hrp = char:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                originalCFrame = hrp.CFrame
+            end
+
+            while _G.autoFarm do
+                local char = player.Character or player.CharacterAdded:Wait()
+                local hrp = char:FindFirstChild("HumanoidRootPart")
+                if not hrp then break end
+
+                for _, part in ipairs(teleportParts) do
+                    if not _G.autoFarm then break end
+                    if part then
+                        hrp.CFrame = part.CFrame
+                    end
+                    wait(delayTime)
+                end
+            end
+
+            local char = player.Character or player.CharacterAdded:Wait()
+            local hrp = char:FindFirstChild("HumanoidRootPart")
+            returnToOriginal(hrp)
+
+            _G.autoFarmRunning = false
+            screenGui.Enabled = false
+            print("Dừng auto farm.")
+        end)
     end
 end)
-
 
 
 local targetItem = "Classic Sword: 200 VND"
@@ -630,3 +889,13 @@ Fluent:Notify({
 })
 
 SaveManager:LoadAutoloadConfig()
+        print("Script dài bắt đầu chạy...")
+    else
+        title.Text = "❌ "..reason.."! Lấy key tại Discord!"
+    end
+end)
+
+getkey.MouseButton1Click:Connect(function()
+    setclipboard(discordLink)
+    title.Text = "📋 Link Discord đã copy!"
+end)
