@@ -238,18 +238,6 @@ local Button = Tabs.Main:AddButton({
 
         loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
 
-        local Players = game:GetService("Players")
-        local player = Players.LocalPlayer
-        local char = player.Character or player.CharacterAdded:Wait()
-        local hrp = char:WaitForChild("HumanoidRootPart")
-
-        local targetPart = workspace:FindFirstChild("TargetPart")
-        if targetPart then
-            hrp.CFrame = targetPart.CFrame + Vector3.new(0, 5, 0)
-        else
-            warn("Không tìm thấy part!")
-        end
-    end
 })
 
 local Button = Tabs.Main:AddButton({
@@ -257,7 +245,7 @@ local Button = Tabs.Main:AddButton({
     Description = "Nhấn để mở script",
     Callback = function()
 
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/yofriendfromschool1/Sky-Hub/main/FE%20Trolling%20GUI.luau"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/ITatzukiVN/FisrtScriptByITatzuki.lua/refs/heads/main/skibidi1"))()
 
         local Players = game:GetService("Players")
         local player = Players.LocalPlayer
