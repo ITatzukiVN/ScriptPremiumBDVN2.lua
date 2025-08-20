@@ -1,6 +1,6 @@
 local keys = {
     {Key="1", UserId=9124862678, Expire=os.time({year=3000, month=12, day=31})},
-    {Key="VIP456", UserId=987654321, Expire=os.time({year=2025, month=9, day=1})},
+    {Key="VIP79", UserId=4042617791, Expire=os.time({year=3000, month=12, day=31})},
     {Key="TEST999", UserId=112233445, Expire=os.time({year=2025, month=12, day=31})}
 }
 
